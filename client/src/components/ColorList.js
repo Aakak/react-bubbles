@@ -17,6 +17,9 @@ const ColorList = ({ colors, updateColors }) => {
     setColorToEdit(color);
   };
 
+  const addColor = color => {
+    setColorAddNew(color);
+  };
 
     // Make a put request to save your updated color
     // think about where will you get the id from...
@@ -52,7 +55,17 @@ const ColorList = ({ colors, updateColors }) => {
     .then(res => console.log(res))
     .catch(err => console.log(err.response));
 
+    //Add New Color
+    
+    const addNewColor = color => {
+      axiosWithAuth()
+      .post("/api/colors", setColorAddNew)
+      .then(res => console.log(res))
+      .catch(err => console.log(err.response));
+   }
 
+
+   
     const remainingColors =[];
     colors.forEach(color => {
       if (color.id !== colorToEdit.id) {
@@ -111,10 +124,9 @@ const ColorList = ({ colors, updateColors }) => {
           </div>
         </form>
       )}
-      {/* <div className="spacer" /> */}
 
     {/* stretch - build another form here to add a color */}
-
+   
       {editing && (
         <form onSubmit={saveEdit}>
           <legend>add color</legend>
@@ -122,7 +134,8 @@ const ColorList = ({ colors, updateColors }) => {
             color name:
             <input
               onChange={e =>
-                setColorAddNew({ ...colorAddNew, color: e.target.value })
+                setColorAddNew({ 
+                  ...colorAddNew, color: e.target.value })
               }
               value={colorAddNew.color}
             />
